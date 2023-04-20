@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
 export type DoctorDocument = Doctor & Document;
 
@@ -23,8 +23,8 @@ export class Doctor {
   @Prop({ required: true, default: true })
   isActive: boolean;
 
-  //   @Prop({ type: Types.ObjectId, ref: "Appointment" })
-  //   appointments_accepted: Types.ObjectId[];
+  @Prop({ type: Types.ObjectId, ref: "SlotAvailability" })
+  slotAvailabilities: Types.ObjectId[];
 }
 
 export const DoctorSchema = SchemaFactory.createForClass(Doctor);
