@@ -7,12 +7,11 @@ export class PatientController {
   constructor(private patientService: PatientService) {}
   @Post()
   async createPatient(@Body() createPatientDto: CreatePatientDto) {
-    console.log("Yeahhh");
     return await this.patientService.createPatient(createPatientDto);
   }
 
-  @Get("/:email")
-  async findPatientByEmail(@Param("email") email: string) {
-    return await this.patientService.findPatientByEmail(email);
+  @Get("/:name")
+  async findPatientByName(@Param("name") name: string) {
+    return await this.patientService.findPatientByName(name);
   }
 }
