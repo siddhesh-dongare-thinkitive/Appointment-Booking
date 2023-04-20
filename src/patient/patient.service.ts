@@ -1,17 +1,23 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { PatientRepository } from "./patient.repository";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { PatientDocument } from "./Schemas/patient.schemas";
 
 @Injectable()
 export class PatientService {
-  constructor(private readonly patientRepository: PatientRepository) {}
-
+  constructor(
+    @InjectModel("Patient")
+    private patientModel: Model<PatientDocument>
+  ) {}
   async createPatient(CreatePatientDto): Promise<any> {
-    const patient = await this.patientRepository.createOne(CreatePatientDto);
+    const patient = await this.patientModel.create(CreatePatientDto);
     return patient;
   }
 
-  async findPatientByEmail(email): Promise<any> {
-    const patient = this.patientRepository.findOne(email);
+  async findPatientByName(name): Promise<any> {
+    const patient = this.patientModel
+      .findOne({ name: name })
+      .populate("patient");
     if (!patient) {
       throw new NotFoundException("Patient not found");
     }
