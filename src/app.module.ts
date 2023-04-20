@@ -6,6 +6,7 @@ import { DoctorModule } from "./doctor/doctor.module";
 import { PatientModule } from "./patient/patient.module";
 import { SlotAvailabilityModule } from './slot-availability/slot-availability.module';
 import { SessionModule } from './session/session.module';
+import { AppointmentModule } from './appointment/appointment.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SessionModule } from './session/session.module';
     ),
     SlotAvailabilityModule,
     SessionModule,
+    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
