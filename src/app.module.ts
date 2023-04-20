@@ -5,6 +5,7 @@ import { AppService } from "./app.service";
 import { DoctorModule } from "./doctor/doctor.module";
 import { PatientModule } from "./patient/patient.module";
 import { SlotAvailabilityModule } from './slot-availability/slot-availability.module';
+import { SessionModule } from './session/session.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { SlotAvailabilityModule } from './slot-availability/slot-availability.mo
       "mongodb+srv://siddheshdongare:sidd3844@cluster0.gtotejl.mongodb.net/?retryWrites=true&w=majority"
     ),
     SlotAvailabilityModule,
+    SessionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
