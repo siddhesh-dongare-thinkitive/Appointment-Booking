@@ -1,27 +1,33 @@
+// patient.model.ts
+
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document, Types } from "mongoose";
+import { Document } from "mongoose";
 
 export type PatientDocument = Patient & Document;
 
-@Schema({ versionKey: false, timestamps: true })
+@Schema()
 export class Patient {
-  @Prop({ required: true, index: true })
+  @Prop({ required: true })
+  name: string;
+
+  @Prop({ required: true, unique: true })
   email: string;
 
   @Prop()
   phone: string;
 
   @Prop()
-  name: string;
+  address: string;
 
   @Prop()
-  gender: string;
-
-  @Prop()
-  type: string;
-
-  //   @Prop({ type: Types.ObjectId, ref: "Appointment" })
-  //   appointments: Types.ObjectId[];
+  appointments: [
+    {
+      doctorId: any;
+      date: Date;
+      startTime: string;
+      endTime: string;
+    }
+  ];
 }
 
 export const PatientSchema = SchemaFactory.createForClass(Patient);

@@ -30,4 +30,7 @@ export class Doctor {
   @IsBoolean()
   @IsNotEmpty()
   isActive: boolean;
+
+  @IsNotEmpty()
+  slotAvailabilities: string;
 }
