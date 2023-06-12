@@ -67,7 +67,6 @@ export class PatientService {
     if (!availabilityDay) {
       throw new BadRequestException("Doctor not available on this day");
     }
-    // console.log(availabilityDay.slots);
 
     const slot = availabilityDay.slots.find((s) => {
       const slotStartTime = new Date(s.startTime);
@@ -79,60 +78,34 @@ export class PatientService {
         slotStartTime.getHours(),
         slotStartTime.getMinutes()
       );
-      // console.log(combinedDateTime);
 
       if (s.booked === false) {
-        // console.log(startTime, endTime);
-        // const timeStart = new Date(startTime);
-        // const timeEnd = new Date(endTime);
-        // console.log(timeStart, timeEnd);
+        const date = bookAppointmentDto.date;
+        const startTime = bookAppointmentDto.startTime;
+        const endTime = bookAppointmentDto.endTime;
 
-        const currentDate = date;
+        const [startHours, startMinutes] = startTime.split(":");
+        const timeStartDate = new Date(date);
+        timeStartDate.setHours(+startHours, +startMinutes, 0);
 
-        const [startHours, startMinutes] = startTime.split(":").map(Number);
-        const [endHours, endMinutes] = endTime.split(":").map(Number);
-        console.log(startHours, startMinutes);
-        console.log(endHours, endMinutes);
-        console.log("Date:", date);
-
-        const timeStartDate = new Date(
-          date.getUTCFullYear(),
-          date.getUTCMonth(),
-          date.getUTCDate(),
-          startHours,
-          startMinutes,
-          0
+        const timeZoneOffsetStart = timeStartDate.getTimezoneOffset();
+        const adjustedTimeStartDate = new Date(
+          timeStartDate.getTime() - timeZoneOffsetStart * 60 * 1000
         );
-        console.log("dateFinal:", date);
+        const [endHours, endMinutes] = endTime.split(":");
+        const timeEndDate = new Date(date);
+        timeEndDate.setHours(+endHours, +endMinutes, 0);
 
-        const startDateString = `${bookAppointmentDto.date}`;
-        const endDateString = `${date}T${endTime}:00.000Z`;
-
-        const startDate = new Date(startDateString);
-        const endDate = new Date(endDateString);
-        console.log(startDate);
-
-        const timeEndDate = new Date(
-          currentDate.getFullYear(),
-          currentDate.getMonth(),
-          currentDate.getDate(),
-          endHours,
-          endMinutes,
-          0
+        const timeZoneOffsetEnd = timeEndDate.getTimezoneOffset();
+        const adjustedTimeEndDate = new Date(
+          timeEndDate.getTime() - timeZoneOffsetEnd * 60 * 1000
         );
-
-        console.log(slotStartTime, "===", timeStartDate);
-
-        if (slotStartTime === timeStartDate) {
-          console.log("We are equal");
-        }
-        // const timeStartDate = "2023-06-09T01:15:00.000Z";
-        // const timeEndDate = "2023-06-09T01:30:00.000Z";
 
         return (
-          slotStartTime.getTime() === new Date(timeStartDate).getTime() &&
+          slotStartTime.getTime() ===
+            new Date(adjustedTimeStartDate).getTime() &&
           s.booked === false &&
-          slotEndTime.getTime() === new Date(timeEndDate).getTime()
+          slotEndTime.getTime() === new Date(adjustedTimeEndDate).getTime()
         );
       } else {
         throw new BadRequestException("Slot is already booked");

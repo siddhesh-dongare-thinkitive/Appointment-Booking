@@ -1,5 +1,5 @@
 import { IsDate, IsNotEmpty } from "class-validator";
-import { Doctor } from "src/doctor/Scheams/doctor.schema";
+import { Doctor } from "src/doctor/Schemas/doctor.schema";
 
 export class SlotAvailability {
   @IsNotEmpty()

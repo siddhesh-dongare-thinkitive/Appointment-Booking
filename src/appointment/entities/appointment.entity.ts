@@ -1,5 +1,5 @@
 import { IsDate, IsNotEmpty, IsString } from "class-validator";
-import { Doctor } from "src/doctor/Scheams/doctor.schema";
+import { Doctor } from "src/doctor/Schemas/doctor.schema";
 import { Patient } from "src/patient/Schemas/patient.schemas";
 import { Session } from "src/session/Schemas/session.schema";
 
